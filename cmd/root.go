@@ -18,7 +18,7 @@ Gitmoji v0.1.0 licensed under the Apache License, Version 2.0.`,
 	Example: `gitm new I just made this super awesome new addition to my project!
 gitm fix This thing shouldn't be acting up anymore.
 gitm update Added on error checking to this function.`,
-	SilenceErrors: true,
+	SilenceErrors: true, // silence errors of commands to use custom error text
 	SilenceUsage:  true,
 }
 
@@ -29,7 +29,9 @@ func Execute() {
 		errorMessage := err.Error()
 		errorMessage = strings.Title(string(errorMessage[0])) + errorMessage[1:]
 
-		fmt.Printf("\033[31m%v.\033[0m\n\n", errorMessage)
+		// the craziness going on between the %s. is changing the color to red
+		// and then changing the color back to the default for Help()
+		fmt.Printf("\033[31m%s.\033[0m\n\n", errorMessage)
 		rootCmd.Help()
 	}
 }
