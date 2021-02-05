@@ -1,7 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"github.com/VijayStroup/gitmoji/cmd"
+)
 
 func main() {
-    fmt.Println("Sup World")
+	cmd.Execute()
 }
