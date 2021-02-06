@@ -13,8 +13,7 @@ var rootCmd = &cobra.Command{
 	Short:   "😎 Gitmoji formats your git commit messages.",
 	Long: `😎 Gitmoji is an extensible git commit message formatter.
 It prepends an emoji to your git commit messages.
-View this project and documentation at https://www.github.com/VijayStroup/gitmoji.
-Gitmoji v0.1.0 licensed under the Apache License, Version 2.0.`,
+View this project and documentation at https://www.github.com/VijayStroup/gitmoji.`,
 	Example: `gitm new I just made this super awesome new addition to my project!
 gitm fix This thing shouldn't be acting up anymore.
 gitm update Added on error checking to this function.`,
