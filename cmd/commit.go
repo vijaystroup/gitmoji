@@ -9,15 +9,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-type command struct {
-	name  string
-	emoji string
-}
-
-var (
-	commands map[string]string
-)
-
 func init() {
 	commands := make(map[string]string)
 
@@ -42,24 +33,24 @@ func makeCommand(name, emoji string) *cobra.Command {
 		Use:   name,
 		Short: fmt.Sprintf("Prepend %s to git commit message", emoji),
 		Run: func(cmd *cobra.Command, args []string) {
-			commit := exec.Command("git", "status")
-			out, err := commit.Output()
-			if err != nil {
+			message := emoji + " " + strings.Join(args, " ")
+			commit := exec.Command("git", "commit", "-m", message)
+
+			// run git command
+			if err := commit.Run(); err != nil {
 				// if the exitcode is 128, that is an indication of the current
 				// directory not being a git repo, so let's tell the user
 				if exitError, _ := err.(*exec.ExitError); exitError.ExitCode() == 128 {
 					fmt.Println("gitm: 🚨 No git repo found in the current directory.")
-				} else {
-					// if another error occurs that is not checked for, alert the user
-					// of the error
-					fmt.Println(err.Error())
 				}
-			} else {
-				fmt.Println(string(out))
+
+				// unknown error
+				fmt.Println("Unable to run command:", err.Error())
+				os.Exit(1)
 			}
-			// if err := commit.Run(); err != nil {
-			// 	fmt.Println("Cant run that command")
-			// }
+
+			// if no error, report the commit message
+			fmt.Printf("\033[32mSuccessfully commited:\033[0m %s\n", message)
 		},
 	}
 }
@@ -84,7 +75,7 @@ func getEnvs(c map[string]string) {
 		if len(v) != 2 {
 			fmt.Printf("\033[31mEnvironment variable '%s' is is of wrong format: '%s'.\n", name, value)
 			fmt.Printf("The correct format is 'command:emoji'.\nExample: 'fix:🔧'.\033[0m\n\n")
-			os.Exit(1)
+			os.Exit(2)
 		}
 
 		// check to see if name is lowercase
