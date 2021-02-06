@@ -19,7 +19,7 @@ Gitmoji v0.1.0 licensed under the Apache License, Version 2.0.`,
 gitm fix This thing shouldn't be acting up anymore.
 gitm update Added on error checking to this function.`,
 	SilenceErrors: true, // silence errors of commands to use custom error text
-	SilenceUsage:  true,
+	SilenceUsage:  true, // silence errors of flags to use custom error text
 }
 
 // Execute of root command 'gitm'
