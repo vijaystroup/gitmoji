@@ -14,28 +14,33 @@ type command struct {
 	emoji string
 }
 
+var (
+	commands map[string]string
+)
+
 func init() {
-	commands := []command{}
+	commands := make(map[string]string)
 
 	// initialize default commands
-	commands = append(commands, command{"new", "✨"})
-	commands = append(commands, command{"fix", "🔧"})
-	commands = append(commands, command{"update", "☝️"})
+	commands["new"] = "✨"
+	commands["fix"] = "🔧"
+	commands["update"] = "☝️"
 
-	getEnvs()
+	// get commands from environment variables
+	getEnvs(commands)
 
 	// loop through commands and add them to rootCmd
-	for _, v := range commands {
-		rootCmd.AddCommand(v.makeCommand())
+	for k, v := range commands {
+		rootCmd.AddCommand(makeCommand(k, v))
 	}
 }
 
 // makeCommand generates a pointer to a cobra.Command to add to the rootCmd.
 // This is done dynamically in the init() function.
-func (c command) makeCommand() *cobra.Command {
+func makeCommand(name, emoji string) *cobra.Command {
 	return &cobra.Command{
-		Use:   c.name,
-		Short: fmt.Sprintf("Prepend %s to git commit message", c.emoji),
+		Use:   name,
+		Short: fmt.Sprintf("Prepend %s to git commit message", emoji),
 		Run: func(cmd *cobra.Command, args []string) {
 			commit := exec.Command("git", "status")
 			out, err := commit.Output()
@@ -59,12 +64,10 @@ func (c command) makeCommand() *cobra.Command {
 	}
 }
 
-// getEnvs returns a map of environment variables set by the user specific to
+// getEnvs adds to a map of environment variables set by the user specific to
 // Gitmoji. They are then processed to ensure they meet the correct format of
 // "command:emoji". Example: "fix:🔧"
-func getEnvs() map[string]string {
-	envs := make(map[string]string)
-
+func getEnvs(c map[string]string) {
 	for _, env := range os.Environ() {
 		// check if env is not a Gitmoji env
 		if !strings.HasPrefix(env, "GITM_") {
@@ -74,7 +77,7 @@ func getEnvs() map[string]string {
 		// get env name and value
 		envSplit := strings.Split(env, "=")
 		name := envSplit[0]
-		value := envSplit[1]
+		value := strings.ReplaceAll(envSplit[1], " ", "")
 
 		// check to see if value format is good
 		v := strings.Split(value, ":")
@@ -90,7 +93,8 @@ func getEnvs() map[string]string {
 			fmt.Printf("'%s' will be treated as '%s'. Change %s to supress this warning.\033[0m\n\n", v[0], strings.ToLower(v[0]), name)
 		}
 		v[0] = strings.ToLower(v[0])
-	}
 
-	return envs
+		// all checks passed, add to commands map
+		c[v[0]] = v[1]
+	}
 }
