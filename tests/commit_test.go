@@ -1,6 +1,7 @@
 package tests
 
 import (
+	"bytes"
 	"fmt"
 	"os"
 	"os/exec"
@@ -37,8 +38,40 @@ func init() {
 	}
 }
 
+// TestCommitDefault tests the default commands that come with Gitmoji and
+// verifies that the git log reflects the correct messages
 func TestCommitDefault(t *testing.T) {
-	fmt.Println("IN TEST")
+	// setup default commands
+	commands := map[string]string{
+		"new":    "✨",
+		"fix":    "🔧",
+		"update": "☝️",
+	}
+
+	// go through all commands and test
+	for k, v := range commands {
+		// edit file and then commit with new command
+		editFile()
+
+		msg := "this is a " + k + " commit"
+		cmd := exec.Command("go", "run", "../../gitmoji.go", k, "-a", msg)
+		if err := cmd.Run(); err != nil {
+			panic(fmt.Errorf("Unable to run gitmoji: %s", err.Error()))
+		}
+
+		// check last commit
+		want := []byte(v + " this is a " + k + " commit")
+
+		out, err := exec.Command("git", "log", "-1", "--pretty=%B").Output()
+		if err != nil {
+			panic(fmt.Errorf("Unable to run gitmoji: %s", err.Error()))
+		} else if bytes.Compare(want, out[:len(out)-2]) != 0 {
+			t.Fatalf("Commit failed:\nwant:\t%s\ngot:\t%s", string(want), string(out))
+		}
+	}
+}
+
+func TestGetEnvs(t *testing.T) {
 	return
 }
 
