@@ -73,10 +73,6 @@ func TestCommitDefault(t *testing.T) {
 	cleanUp()
 }
 
-func TestGetEnvs(t *testing.T) {
-	return
-}
-
 // editFile appends to a test file to simulate changes to a file to allow git
 // to detect changes for commits
 func editFile() {
