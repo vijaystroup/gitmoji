@@ -43,6 +43,11 @@ func makeCommand(name, emoji string) *cobra.Command {
 			// differnet commits dependent on flag
 			var commit *exec.Cmd
 			if autoStage == true {
+				// track untracked files
+				if err := exec.Command("git", "add", "-A").Run(); err != nil {
+					fmt.Println("\033[31mgitm: 🚨 No git repo found in the current directory.\033[0m")
+					os.Exit(1)
+				}
 				commit = exec.Command("git", "commit", "-am", message)
 			} else {
 				commit = exec.Command("git", "commit", "-m", message)
@@ -53,12 +58,33 @@ func makeCommand(name, emoji string) *cobra.Command {
 				// if the exitcode is 128, that is an indication of the current
 				// directory not being a git repo, so let's tell the user
 				if exitError, _ := err.(*exec.ExitError); exitError.ExitCode() == 128 {
-					fmt.Println("gitm: 🚨 No git repo found in the current directory.")
+					fmt.Println("\033[31mgitm: 🚨 No git repo found in the current directory.\033[0m")
+					os.Exit(2)
+				}
+
+				// check for untracked files that could be commited
+				untracked := exec.Command("git", "ls-files", "--other", "--exclude-standard", "--directory")
+				untrackedOut, _ := untracked.Output()
+				if len(untrackedOut) != 0 {
+					fmt.Println("\033[31mgitm: Files available for staging but none found for commit.")
+					fmt.Println("Try 'git add FILE' or 'gitm COMMAND -a MESSAGE'.\033[0m")
+					os.Exit(3)
+				}
+
+				// check git diff to see if repo is up to date
+				diff := exec.Command("git", "diff")
+				diffOut, _ := diff.Output()
+				if len(diffOut) == 0 {
+					fmt.Println("\033[33mgitm: Nothing to commit, working tree clean.\033[0m")
+					os.Exit(0)
+				} else {
+					fmt.Println("\033[31mgitm: Modified files not staged for commit.\033[0m")
+					os.Exit(4)
 				}
 
 				// unknown error
-				fmt.Println("Unable to run command:", err.Error())
-				os.Exit(1)
+				fmt.Println("\033[31mgitm: Unable to run command.\033[0m")
+				os.Exit(5)
 			}
 
 			// if no error, report the commit message
@@ -68,7 +94,7 @@ func makeCommand(name, emoji string) *cobra.Command {
 
 	// flags
 	command.Flags().BoolVarP(&autoStage, "all", "a", false,
-		"Automatically stage all untracked files to commit")
+		"Automatically track and stage all files to commit")
 
 	return command
 }
@@ -93,7 +119,7 @@ func getEnvs(c map[string]string) {
 		if len(v) != 2 {
 			fmt.Printf("\033[31mEnvironment variable '%s' is is of wrong format: '%s'.\n", name, value)
 			fmt.Printf("The correct format is 'command:emoji'.\nExample: 'fix:🔧'.\033[0m\n\n")
-			os.Exit(2)
+			os.Exit(6)
 		}
 
 		// check to see if name is lowercase
