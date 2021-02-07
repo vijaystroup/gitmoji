@@ -1,5 +1,9 @@
 # 😎 Gitmoji
 
+<p align="center">
+  <img src="gitmoji_logo.png" alt="Gitmoji">
+</p>
+
 ## Table of Contents
 - [💭 Background](##💭-Background)
 - [⚡ Quickstart](##⚡-Quickstart)
@@ -8,6 +12,8 @@
   * [Windows](###Windows)
   * [Self Build](###Self-Build)
 - [📄 Documentation](##📄-Documentation)
+  * [First Steps](###First-Steps)
+  * [Modularity](###Modularity)
 - [🙌 Contributing](##🙌-Contributing)
 
 ## 💭 Background
