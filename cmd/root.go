@@ -17,8 +17,9 @@ View this project and documentation at https://www.github.com/VijayStroup/gitmoj
 	Example: `gitm new I just made this super awesome new addition to my project!
 gitm fix This thing shouldn't be acting up anymore.
 gitm update Added on error checking to this function.`,
-	SilenceErrors: true, // silence errors of commands to use custom error text
-	SilenceUsage:  true, // silence errors of flags to use custom error text
+	SuggestionsMinimumDistance: 2,    // if command is off by 2 letters, provide suggestion
+	SilenceErrors:              true, // silence errors of commands to use custom error text
+	SilenceUsage:               true, // silence errors of flags to use custom error text
 }
 
 // Execute of root command 'gitm'
@@ -28,9 +29,9 @@ func Execute() {
 		errorMessage := err.Error()
 		errorMessage = strings.Title(string(errorMessage[0])) + errorMessage[1:]
 
-		// the craziness going on between the %s. is changing the color to red
+		// the craziness going on between the %s is changing the color to red
 		// and then changing the color back to the default for Help()
-		fmt.Printf("\033[31m%s.\033[0m\n\n", errorMessage)
+		fmt.Printf("\033[31m%s\033[0m\n\n", errorMessage)
 		rootCmd.Help()
 	}
 }
