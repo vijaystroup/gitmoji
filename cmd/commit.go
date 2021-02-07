@@ -11,7 +11,6 @@ import (
 
 // flags
 var (
-	autoPush  bool
 	autoStage bool
 )
 
@@ -68,8 +67,6 @@ func makeCommand(name, emoji string) *cobra.Command {
 	}
 
 	// flags
-	command.Flags().BoolVarP(&autoPush, "push", "p", false,
-		"Automatically push to remote after commit")
 	command.Flags().BoolVarP(&autoStage, "all", "a", false,
 		"Automatically stage all untracked files to commit")
 
