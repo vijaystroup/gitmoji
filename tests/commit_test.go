@@ -69,6 +69,8 @@ func TestCommitDefault(t *testing.T) {
 			t.Fatalf("Commit failed:\nwant:\t%s\ngot:\t%s", string(want), string(out))
 		}
 	}
+
+	cleanUp()
 }
 
 func TestGetEnvs(t *testing.T) {
@@ -86,5 +88,12 @@ func editFile() {
 
 	if _, err := f.WriteString(time.Now().String() + "\n"); err != nil {
 		panic(fmt.Errorf("Unable to append to mock file: %s", err.Error()))
+	}
+}
+
+// cleanUp cleans up the temporary mock_project directory for the tests
+func cleanUp() {
+	if err := exec.Command("rm", "-rf", "../mock_project").Run(); err != nil {
+		panic(fmt.Errorf("Unable to delete mock_project dir: %s", err.Error()))
 	}
 }
