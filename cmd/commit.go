@@ -9,6 +9,12 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// flags
+var (
+	autoPush  bool
+	autoStage bool
+)
+
 func init() {
 	commands := make(map[string]string)
 
@@ -29,12 +35,19 @@ func init() {
 // makeCommand generates a pointer to a cobra.Command to add to the rootCmd.
 // This is done dynamically in the init() function.
 func makeCommand(name, emoji string) *cobra.Command {
-	return &cobra.Command{
+	command := &cobra.Command{
 		Use:   name,
 		Short: fmt.Sprintf("Prepend %s to git commit message", emoji),
 		Run: func(cmd *cobra.Command, args []string) {
 			message := emoji + " " + strings.Join(args, " ")
-			commit := exec.Command("git", "commit", "-m", message)
+
+			// differnet commits dependent on flag
+			var commit *exec.Cmd
+			if autoStage == true {
+				commit = exec.Command("git", "commit", "-am", message)
+			} else {
+				commit = exec.Command("git", "commit", "-m", message)
+			}
 
 			// run git command
 			if err := commit.Run(); err != nil {
@@ -53,6 +66,14 @@ func makeCommand(name, emoji string) *cobra.Command {
 			fmt.Printf("\033[32mSuccessfully commited:\033[0m %s\n", message)
 		},
 	}
+
+	// flags
+	command.Flags().BoolVarP(&autoPush, "push", "p", false,
+		"Automatically push to remote after commit")
+	command.Flags().BoolVarP(&autoStage, "all", "a", false,
+		"Automatically stage all untracked files to commit")
+
+	return command
 }
 
 // getEnvs adds to a map of environment variables set by the user specific to
