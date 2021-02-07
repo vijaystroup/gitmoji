@@ -40,8 +40,8 @@ Successfully commited: ✨ Implemented new security features
 ## 📥 Installation
 ### Linux/Mac
 ```bash
-$ wget xxxxxxxxxxx.tar.gz && tar -xzf xxxxxxxxxxx.tar.gz
-$ sudo mv gitmoji/xxxx/gitm /usr/local/bin
+$ wget https://github.com/VijayStroup/gitmoji/releases/download/v0.1.0/gitm
+$ chmod +x gitm && sudo mv gitm /usr/local/bin
 $ gitm -v
 gitm version 0.1.0
 ```
@@ -54,12 +54,12 @@ If not, [click this](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
 ### Self Build
 Requirements: [Go](https://golang.org/)!
 ```bash
-$ git clone https://github.com/VijayStroup/gitmoji && cd gitmoji
+$ wget https://github.com/VijayStroup/gitmoji/archive/v0.1.0.tar.gz
+$ tar -xvf https://github.com/VijayStroup/gitmoji/archive/v0.1.0.tar.gz && cd gitmoji-0.1.0
 $ go test tests/commit_test.go
 ok      command-line-arguments  3.766s
-$ go build -o gitm .
-$ chmod +x gitm && sudo mv gitm /usr/local/bin
-$ cd .. && rm gitmoji
+$ go build -o gitm . && sudo mv gitm /usr/local/bin
+$ cd .. && rm -rf gitmoji-0.1.0 v0.1.0.tar.gz
 $ gitm -v
 gitm version 0.1.0
 ```
