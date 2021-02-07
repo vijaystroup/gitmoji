@@ -52,10 +52,15 @@ If so refer to the [Linux/Mac](###Linux/Mac) Section.
 If not, [click this](https://docs.microsoft.com/en-us/windows/wsl/install-win10).
 
 ### Self Build
-Requirements: [Go](https://golang.org/)!
+Requirements:
+- [Go](https://golang.org/)!
+- Git global config set
+  * git config --global user.email "you@example.com"
+  * git config --global user.name "Your Name"
+
 ```bash
 $ wget https://github.com/VijayStroup/gitmoji/archive/v0.1.0.tar.gz
-$ tar -xvf https://github.com/VijayStroup/gitmoji/archive/v0.1.0.tar.gz && cd gitmoji-0.1.0
+$ tar -xvf v0.1.0.tar.gz && cd gitmoji-0.1.0
 $ go test tests/commit_test.go
 ok      command-line-arguments  3.766s
 $ go build -o gitm . && sudo mv gitm /usr/local/bin
