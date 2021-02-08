@@ -5,16 +5,16 @@
 </p>
 
 ## Table of Contents
-- [💭 Background](##💭-Background)
-- [⚡ Quickstart](##⚡-Quickstart)
-- [📥 Installation](##📥-Installation)
-  * [Linux/Mac](###Linux/Mac)
-  * [Windows](###Windows)
-  * [Self Build](###Self-Build)
-- [📄 Documentation](##📄-Documentation)
-  * [First Steps](###First-Steps)
-  * [Modularity](###Modularity)
-- [🙌 Contributing](##🙌-Contributing)
+- [💭 Background](#-background)
+- [⚡ Quickstart](#-Quickstart)
+- [📥 Installation](#-Installation)
+  * [Linux/Mac](#linuxmac)
+  * [Windows](#Windows)
+  * [Self Build](#Self-Build)
+- [📄 Documentation](#-Documentation)
+  * [First Steps](#First-Steps)
+  * [Modularity](#Modularity)
+- [🙌 Contributing](#-Contributing)
 
 ## 💭 Background
 I was on the wave of emoji commit messages, but after a while, having to keep going to
@@ -23,7 +23,7 @@ along with my commit message was just not worth it.
 
 So how about I just type something like `gitm fix It should be all good now` where fix
 declares the type of emoji I want to use and "It should be all good now" is my commit
-message? Here, I'll help you scroll down: [click me](##⚡-Quickstart).
+message? Here, I'll help you scroll down: [click me](#-Quickstart).
 
 ## ⚡ Quickstart
 ```bash
@@ -90,7 +90,7 @@ be in lowercase, even if in this case you were to set the variable above to
 For the `emoji`, any text can be represented here (it does not actually have to
 be an emoji), and will be prepended to your git commit message.  
 
-For lasting effect, make sure to add Gitmoji commands to your `.bashrc`.
+For lasting effect, make sure to add Gitmoji commands to your `.bashrc`.  
 Here is an example `.bashrc`:
 ```bash
 export GITM_BUILD="build:🏗️"
