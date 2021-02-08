@@ -8,8 +8,7 @@
 - [💭 Background](#-background)
 - [⚡ Quickstart](#-Quickstart)
 - [📥 Installation](#-Installation)
-  * [Linux](#linux)
-  * [Mac](#mac)
+  * [Linux/Mac](#linuxmac)
   * [Windows](#Windows)
   * [Self Build](#Self-Build)
 - [📄 Documentation](#-Documentation)
@@ -39,18 +38,17 @@ Successfully commited: ✨ Implemented new security features
 ```
 
 ## 📥 Installation
-### Linux
+### Linux/Mac
 ```bash
-$ wget https://github.com/VijayStroup/gitmoji/releases/download/v0.1.0/gitm
-$ chmod +x gitm && sudo mv gitm /usr/local/bin
-$ gitm -v
-gitm version 0.1.0
-```
+# Linux
+$ wget https://github.com/VijayStroup/gitmoji/releases/download/v0.1.0/gitmoji-v0.1.0-linux.tar.gz
+$ tar -xvf gitmoji-v0.1.0-linux.tar.gz
 
-### Mac
-```bash
+# Mac
 $ wget https://github.com/VijayStroup/gitmoji/releases/download/v0.1.0/gitmoji-v0.1.0-mac.tar.gz
 $ tar -xvf gitmoji-v0.1.0-mac.tar.gz
+
+# both
 $ chmod +x gitm && sudo mv gitm /usr/local/bin
 $ gitm -v
 gitm version 0.1.0
@@ -58,7 +56,7 @@ gitm version 0.1.0
 
 ### Windows
 You're using WSL right? 😅  
-If so refer to the [Linux/Mac](#linux) Section.  
+If so refer to the [Linux/Mac](#linuxmac) Section.  
 If not, [click this](https://docs.microsoft.com/en-us/windows/wsl/install-win10).
 
 ### Self Build
