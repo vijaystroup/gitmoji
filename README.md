@@ -81,6 +81,9 @@ gitm version 0.1.0
 ### First Steps
 Make sure where ever you choose to install the gitm binary, that location is in
 your `$PATH`.  
+The three default commands are `new, update, fix` with emojis ✨, ☝️, and 🔧 
+respectfully. These default emojis can be overwritten by extending Gitmoji. See
+[Modularity](#Modularity)
 
 ### Modularity
 When adding a new command, or overwriting one of the three default commands, all
